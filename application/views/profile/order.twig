@@ -1,0 +1,36 @@
+{% extends 'main.twig' %}
+
+{% block body %}
+    <br />
+    <h2>{{ title }}</h2>
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'general/profile_menu.twig' with {'submenu_item': 'order_history'} %}
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-4 text-right">
+                    <b>Order</b>
+                </div>
+                <div class="col-md-8">{{ order.title }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 text-right">
+                    <b>Price</b>
+                </div>
+                <div class="col-md-8">${{ number_format(order.price, 2, '.', ' ') }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 text-right">
+                    <b>Order Date</b>
+                </div>
+                <div class="col-md-8">{{ date('m-d-Y h:i:s', strtotime(order.created_at)) }}</div>
+            </div>
+            <br />
+            <br />
+            <div>
+                <a href="{{ base_url('profile/orders') }}">Go back to Orders List</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

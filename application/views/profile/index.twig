@@ -1,0 +1,71 @@
+{% extends 'main.twig' %}
+
+{% block body %}
+    <br />
+    <h2>{{ title }}</h2>
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'general/profile_menu.twig' with {'submenu_item': 'profile'} %}
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <b>{{ lang('name') }}</b>
+                </div>
+                <div class="col-xs-8">{{ user.firstname }} {{ user.lastname }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <b>{{ lang('email') }}</b>
+                </div>
+                <div class="col-xs-8">{{ user.email }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <b>{{ lang('phone_no') }}</b>
+                </div>
+                <div class="col-xs-8">{{ user.phone }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <b>{{ lang('dob') }}</b>
+                </div>
+                <div class="col-xs-8">{{ user.dob|date("m-d-Y") }}</div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <b>{{ lang('street_address') }}</b>
+                </div>
+                <div class="col-xs-8">{{ user.address }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <b>{{ lang('zipcode') }}</b>
+                </div>
+                <div class="col-xs-8">{{ user.zipcode }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <b>{{ lang('country') }}</b>
+                </div>
+                <div class="col-xs-8">{{ user.country }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <b>{{ lang('state') }}</b>
+                </div>
+                <div class="col-xs-6">{{ user.state }}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <b>{{ lang('city') }}</b>
+                </div>
+                <div class="col-xs-8">{{ user.city }}</div>
+            </div>
+            <div class="text-left">
+                <a href="{{ base_url('profile/edit') }}">{{ lang('edit_profile_data') }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

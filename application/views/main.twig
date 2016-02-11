@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    {% include 'general/header_attachements.twig' %}
+    {% block css %}{% endblock %}
+    {% block js_top %}{% endblock %}
+</head>
+
+<body>
+<div class="global-wrap">
+    <header id="main-header">
+        {% include 'general/header_section.twig' %}
+    </header>
+    <div class="container" style="min-height:490px;">
+        {% block body %} {% endblock %}
+    </div>
+    <footer id="main-footer">
+        <div class="container">
+            {% include 'general/footer_section.twig' %}
+        </div>
+    </footer>
+
+    {% include 'general/footer_attachements.twig' %}
+    {% include 'home/form_validations.twig' %}
+</div>
+{#{% include 'general/preloader_payment.php' %}#}
+{% block js_bottom %}{% endblock %}
+
+</body>
+
+</html>

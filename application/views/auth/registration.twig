@@ -1,0 +1,122 @@
+{% extends 'main.twig' %}
+
+{% block body %}
+<div>
+    <form method="post" action="{{ base_url('auth/registration', get_protocol()) }}">
+        <input type="hidden" name="{{ this.security.get_csrf_token_name() }}" value="{{ this.security.get_csrf_hash() }}" />
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h1>Sign Up</h1>
+                <div class="form-group">
+                    <label for="inputEmail">{{ lang('email_address') }}  <span class="red">*</span></label>
+                    <input type="text"
+                           name="email"
+                           id="inputEmail"
+                           class="form-control"
+                           placeholder="{{ lang('email_address') }}"
+                           value="{{ set_value('email') }}"
+                        >
+            <span style="color:red;">{{  form_error('email')|raw }}</span>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">{{ lang('password') }}  <span class="red">*</span></label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="{{ lang('password') }}" >
+          <span style="color:red;">{{ form_error('password')|raw  }}</span>
+                </div>
+                <div class="form-group">
+                    <label for="inputPasswordConfirmation">{{ lang('retype_password') }}  <span class="red">*</span></label>
+                    <input type="password" name="password_confirmation" id="inputPasswordConfirmation" class="form-control" placeholder="{{ lang('retype_password') }}" >
+          <span style="color:red;">{{ form_error('password_confirmation')|raw }}</span>
+                </div>
+             
+                <div class="form-group">
+                    <label for="inputFirstName">{{ lang('first_name') }}  <span class="red">*</span></label>
+                    <input type="text"
+                           name="firstname"
+                           id="inputFirstName"
+                           class="form-control"
+               placeholder="{{ lang('first_name') }}"
+                           value="{{ set_value('firstname') }}"
+                        >
+            <span style="color:red;">{{ form_error('firstname')|raw }}</span>
+            
+                </div>
+                <div class="form-group">
+                    <label for="inputLastName">{{ lang('last_name') }}  <span class="red">*</span></label>
+                    <input type="text"
+                           name="lastname"
+                           id="inputLastName"
+                           class="form-control"
+               placeholder="{{ lang('last_name') }}"
+                           value="{{ set_value('lastname') }}"
+                        >
+            <span style="color:red;">{{ form_error('lastname')|raw }}</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputMobileNo">{{ lang('mobile_no') }}  <span class="red">*</span></label>
+                    <input type="text"
+                           name="mobile_no"
+                           id="inputMobileNo"
+                           class="form-control"
+               placeholder="{{ lang('mobile_no') }}"
+                           value="{{ set_value('mobile_no') }}"
+                        >
+            <span style="color:red;">{{ form_error('mobile_no')|raw }}</span>
+                </div>
+                <div class="form-group">
+                    <label for="inputLastName">{{ lang('dob') }}  <span class="red">*</span></label>
+                    <input type="text"
+                          name="dob"
+                          id="dobdatepicker"
+                          class="form-control"
+                          placeholder="{{ lang('dob') }}"
+                          value="{{ set_value('dob') }}"
+                        >
+            <span style="color:red;">{{ form_error('dob')|raw }}</span>
+                </div>
+				
+				
+				
+				<div class="form-group">
+                    <label for="inputLastName">{{ lang('captcha') }}  <span class="red">*</span></label>
+					<div>{{ captcha.image | raw }}</div>				
+                    <input type="text"
+                          name="captcha"
+                          id="inputDob"
+                          class="form-control"
+                          value="{{ set_value('captcha') }}"
+                        >
+            <span style="color:red;">{{ form_error('captcha')|raw }}</span>
+                </div>
+				
+                <div class="text-right">
+                    <a href="{{ base_url('auth/login', get_protocol()) }}" class="btn btn-link">{{ lang('sign_in') }}</a>
+                    <input type="submit" value="{{ lang('register') }}" class="btn btn-primary">
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <br />
+        <br />
+    </form>
+</div>
+
+{%  endblock %}
+
+
+{% block js_bottom %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/0.12.16/vue.min.js"></script>
+    <script src="{{ base_url('assets/js/profile.js', get_protocol()) }}"></script>
+
+    {% if show_captcha %}
+        {{ recaptcha_script|raw }}
+    {% endif %}
+{% endblock %}
+
+
+
+{% block css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker.min.css">
+{% endblock %}

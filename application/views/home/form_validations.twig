@@ -1,0 +1,329 @@
+<script type="text/javascript">
+
+
+    var airportsArray = $.map(airports, function(value, key) {
+        return {
+            value: value,
+            data: key
+        };
+    });
+    $(document).ready(function(e) {
+       
+	for(i=1;i<=5;i++){
+        $('#from'+i).autocomplete({
+            lookup: airportsArray,
+        });
+	}
+
+    });
+
+
+
+    var airportsArray = $.map(airports, function(value, key) {
+        return {
+            value: value,
+            data: key
+        };
+    });
+    $(document).ready(function(e) {
+		
+			for(i=1;i<=5;i++){
+				$('#to'+i).autocomplete({
+					lookup: airportsArray
+				});
+			}
+			
+			var dateToday = new Date();
+
+			$('.from_date').datepicker({
+                numberOfMonths: 3,minDate: dateToday,
+				onSelect: function (selected) {
+					var dt = new Date(selected);
+					dt.setDate(dt.getDate());
+					$(".to_date").datepicker("option", "minDate", dt);
+				}
+            });
+			$('.to_date').datepicker({
+                numberOfMonths: 3,minDate: dateToday,
+				onSelect: function (selected) {
+					var dt = new Date(selected);
+					dt.setDate(dt.getDate());
+					$(".from_date").datepicker("option", "maxDate", dt);
+					
+					var dt = new Date(selected);
+					dt.setDate(dt.getDate());
+					$(".to_date2").datepicker("option", "minDate", dt);
+					
+				}
+            });
+			
+			$('.to_date2').datepicker({
+                numberOfMonths: 3,minDate: dateToday
+            });
+			
+		});
+	
+
+
+    function addmoredestination() {
+        cc = $('#citycount').val();
+		if(cc<=2){
+			$('#cremove1,#cremove2,#cremove3').text("");
+			$('#multi'+cc).show();
+			$('#cremove'+cc).text("remove");
+			cc++;
+			$('#citycount').val(cc);
+		
+		}
+		if(cc==3){ $("#cityadd").text(""); }	
+		
+    }
+
+    function cremove(nn) {
+		$('#cremove1,#cremove2,#cremove3').text("");
+        cc = $('#citycount').val();	
+		if(cc==2){	$('#multi1').hide(); $('#from4').val(''); $('#to4').val(''); $('#depdate4').val(''); cc--; }
+		if(cc==3){	$('#multi2').hide(); $('#from5').val(''); $('#to5').val(''); $('#depdate5').val(''); cc--;$('#cremove1').text("remove");}
+		if(cc==4){	$('#multi3').hide(); $('#from6').val(''); $('#to6').val(''); $('#depdate6').val(''); cc--;$('#cremove2').text("remove"); }
+		if(cc==5){	$('#multi4').hide();cc--; $('#from7').val(''); $('#to7').val(''); $('#depdate7').val('');$('#cremove3').text("remove"); }
+		$('#citycount').val(cc);
+		$("#cityadd").text("More Destination");
+    }
+
+    function dotoggle(a) {
+
+        if ($('#more' + a).text() == "More Option") {
+            $('#less' + a + '1,#less' + a + '2,#less' + a + '3,#less' + a + '4').toggle();
+            $('#more' + a).text("Less Option");
+
+        } else {
+            $('#less' + a + '1,#less' + a + '2,#less' + a + '3,#less' + a + '4').toggle();
+            $('#more' + a).text("More Option");
+        }
+
+    }
+
+    function frmsubmit(n) {
+		mainform=n;
+		cc = $('#citycount').val();	
+		adl = $("#adl" + n).val();
+        cld = $("#cld" + n).val();
+        inf = $("#inf" + n).val();
+        tot = parseInt(adl) + parseInt(cld);
+		 if (adl == 0) {
+            $(".adl" + n).text("Adults Must be minimum 1");
+            $("#adl" + n).css("border", "solid 1px red");
+            returni = 0;
+        } else if (tot > 9) {
+            $("#totalval" + n).text("Currently, bookings can only be made for upto 9 travelers. You can make multiple bookings to accommodate your entire party");
+            $("#adl" + n).css("border", "solid 1px red");
+            returni = 0;
+            $("#cld" + n).css("border", "solid 1px red");
+            returni = 0;
+        }
+		else if (tot < inf) {
+            $("#totalval" + n).text("Number of infants cannot exceed number of seats");
+            $("#adl" + n).css("border", "solid 1px red");
+            $("#cld" + n).css("border", "solid 1px red");
+            $("#inf" + n).css("border", "solid 1px red");
+            returni = 0;
+        } else {
+            $("#totalval" + n).text("");
+            $(".adl" + n).text("");
+            $("#adl" + n).css("border", "");
+            $(".cld" + n).text("");
+            $("#cld" + n).css("border", "");
+			 $(".inf" + n).text("");
+            $("#inf" + n).css("border", "");
+			returni = 1;
+        }
+		for(k=0; k<cc; k++) {
+		
+
+        fromd = $("#from" + n).val();
+        tod = $("#to" + n).val();
+        depdate = $("#depdate" + n).val();
+        retdate = $("#retdate" + n).val();
+
+        i = j = 1;
+        $.each(airports, function(key, value) {
+
+            if (value == fromd) {
+                i = 2;
+            }
+            if (value == tod) {
+                j = 2;
+            }
+        });
+		
+
+        if (i == 1) {
+            $(".from" + n).text("From destination is not valid");
+            $("#from" + n).css("border", "solid 1px red");
+            returni = 0;
+        }else if(fromd==tod){			
+			$(".from" + n).text("From and To destination cannot be same");
+            $("#from" + n).css("border", "solid 1px red");
+			$("#to" + n).css("border", "solid 1px red");
+            returni = 0;		
+		}else {
+            $(".from" + n).text("");
+            $("#from" + n).css("border", "");
+        }
+
+        if (j == 1) {
+            $(".to" + n).text("To destination is not valid");
+            $("#to" + n).css("border", "solid 1px red");
+            returni = 0;
+        }else {
+            $(".to" + n).text("");
+            $("#to" + n).css("border", "");
+        }
+		
+		
+		
+		
+		if(depdate==""){			
+            $(".depdate" + n).text("Departure date is required");
+            $("#depdate" + n).css("border", "solid 1px red");
+            returni = 0;
+		} else {
+            $(".depdate" + n).text("");
+            $("#depdate" + n).css("border", "");
+        }
+		if(retdate==""){			
+            $(".retdate" + n).text("Return date is required");
+            $("#retdate" + n).css("border", "solid 1px red");
+            returni = 0;
+		} else {
+            $(".retdate" + n).text("");
+            $("#retdate" + n).css("border", "");
+        }
+
+       
+		n++;
+		}
+        
+
+        if (returni == 0) {
+			return false;
+        } else {
+			$(".global-wrap").css("display","none");
+			$("head").html("");
+			$("#preloader-search").css("display","inline-block");
+			//$("body").css({"overflow":"visible","background":"url(<?php echo base_url(); ?>assets/img/bg.jpg) no-repeat","background-size":"cover"});
+			$("body").css({"overflow":"visible"});
+			$(".global-wrap:first").css({"overflow":"hidden","background":"none"});
+
+			/*if(mainform!=3){
+				$(".mb5").html(fromd+" - "+tod);
+			}else{
+				$(".mb5").html($("#from3").val()+" - "+$("#to3").val());
+			}*/
+			
+			if(mainform==3){
+				
+				fromval = $("#from3").val().split(",");
+				toval = $("#to3").val().split(",");
+				
+				if(cc==1){ $(".mb5").html(fromval[1]+" - "+toval[1]);	}
+				else if(cc==2){
+					//$("#cityadd").click();					
+					fromval2 = $("#from4").val().split(",");
+					toval2 = $("#to4").val().split(",");				
+					$(".mb5").html(fromval[1]+"  - "+toval[1]+" &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"+toval2[1]+"  -  "+fromval2[1]);	
+				}
+				else{
+
+					//$("#cityadd").click();
+					//$("#cityadd").click();					
+					fromval2 = $("#from4").val().split(",");
+					toval2 = $("#to4").val().split(",");
+					fromval3 = $("#from5").val().split(",");
+					toval3 = $("#to5").val().split(",");				
+					$(".mb5").html(fromval[1]+"  - "+toval[1]+" &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"+toval2[1]+"  -  "+fromval2[1]+" &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"+toval3[1]+"  -  "+fromval3[1]);	
+				}
+				
+			}else if(mainform==1){
+				fromval = $("#from1").val().split(",");
+				toval = $("#to1").val().split(",");
+				$(".mb5").html(fromval[1]+"  - "+toval[1]+" &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"+toval[1]+"  -  "+fromval[1]);
+			}else{
+				fromval = fromd.split(",");
+				toval = tod.split(",");
+				
+				$(".mb5").html(fromval[1]+" - "+toval[1]);
+			}
+			
+		}
+		
+		
+    }
+	function setDepartureLocation(item) {
+		DepartureLocation = $("#to"+(item)).val();
+		$("#from"+(item+1)).val(DepartureLocation);
+	}
+	function searchHistory(id){
+		$.ajax({
+				url: "{{ base_url('trip/searchHistory', get_protocol()) }}",
+				type: "post",
+				data : {
+				 id: id
+			   },
+				success: function(data){
+					details=JSON.parse(data);
+					type=details[0]['journey_type'];
+					if(type=="Round"){i=1; $("#flight-search-1").click(); }
+					else if(type=="Oneway"){i=2; $("#flight-search-2").click(); }
+					else{i=3; $("#flight-search-3").click(); }
+					
+					$("#from"+i).val(details[0]['departure1']);
+					$("#to"+i).val(details[0]['arrival1']);
+					$("#depdate"+i).val(details[0]['departuredate1']);
+					$("#retdate"+i).val(details[0]['returndate1']);
+					$("#adl"+i).val(details[0]['adults']);
+					$("#cld"+i).val(details[0]['children']);
+					$("#inf"+i).val(details[0]['infants']);
+					$("#airline"+i).val(details[0]['airlines']);
+					$("#cabin"+i).val(details[0]['class']);
+					
+					if(details[0]['flexible']=="on") $("#fexible"+i).prop( "checked", true );
+					else $("#fexible"+i).prop( "checked", false );
+					
+					if(i==3){
+						$("#from4").val(details[0]['departure2']);
+						$("#from5").val(details[0]['departure3']);
+						$("#to4").val(details[0]['arrival2']);
+						$("#to5").val(details[0]['arrival3']);
+						$("#depdate4").val(details[0]['departuredate2']);
+						$("#depdate5").val(details[0]['departuredate3']);
+						
+						if(details[0]['arrival2']!="") $("#cityadd").click();
+						if(details[0]['arrival3']!="") $("#cityadd").click();
+					}
+					
+					$("#submit"+i).click();
+				}
+		   });
+	}
+
+	$( "#dobdatepicker" ).datepicker({
+			dateFormat: 'mm-dd-yy',
+			minDate : '-100y',
+			maxDate : '-18y',
+			yearRange:'-100y:-18y',
+			changeYear: true,
+			changeMonth: true
+			
+		});
+	$( "#datepicker" ).datepicker({
+			dateFormat: 'mm-dd-yy',
+			minDate : '-100y',
+			maxDate : new Date(),
+			yearRange:'-100y:'+new Date,
+			changeYear: true,
+			changeMonth: true
+			
+		});
+		
+</script>

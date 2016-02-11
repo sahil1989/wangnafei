@@ -1,0 +1,134 @@
+{% extends 'main.twig' %}
+
+{% block body %}
+    <br />
+    <h2>{{ title }}</h2>
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'general/profile_menu.twig' with {'submenu_item': 'order_history'} %}
+        </div>
+        <div class="col-md-9">
+            <form action="{{ base_url('Profile/searchBooking', get_protocol()) }}" method="post">
+
+                        <div class="row">
+
+                            <div class="form-group col-md-6">
+                                <div class="col-md-4">
+                                    <label id="linee">{{ lang('passenger_first_name') }}</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-icon right">
+                                        <input type="text" class="form-control" name="passenger_first_name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="col-md-4">
+                                    <label id="linee">{{ lang('passenger_last_name') }}</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-icon right">
+                                        <input type="text" class="form-control" name="passenger_last_name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="col-md-4">
+                                    <label id="linee">{{ lang('booking_ref_no') }}</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-icon right">
+                                        <input type="text" class="form-control"  name="ref_no">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="col-md-4">
+                                    <label id="linee">{{ lang('date') }}</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="input-icon right">
+                                        <input type="text" class="form-control dobdatepicker" id="datepicker"  name="booking_date">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <div class="col-md-12">
+                                    <div id="ritt" class="input-icon right">
+                                        <input type="submit" class="btn purple" value="{{ lang('search') }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th> S.No </th>
+                                <th> {{ lang('customer_name') }} </th>
+                                <th> {{ lang('email') }} </th>
+                                <th> {{ lang('phone_no') }} </th>
+                                <th> {{ lang('booking_ref_no') }} </th>
+                                <th> {{ lang('total_cost') }} </th>
+                                <th> {{ lang('booked_on') }} </th>
+                                <th> {{ lang('status') }} </th>
+                                <th> {{ lang('action') }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                                
+                                 {% if results|length > 0 %}   
+									
+										{% set sno = new_count+1 %}
+									
+                                    {% for data in results %}
+                                        <tr style="height:40px;" class="orderrow">
+                                           <td> {{ sno }} </td>
+                                            <td> {{ data.firstname }} </td>
+                                            <td> {{data.email }} </td>
+                                            <td class="center"> {{data.phone }} </td>
+                                            <td class="center"> {{data.booking_ref_no }} </td>
+                                            <td class="center">$ {{data.total_cost }} </td>
+                                            <td class="center"> {{ date('m-d-Y h:i:s', strtotime(data.created_dt)) }} </td>
+                                            <td class="center">{{data.booking_status }} </td>
+
+                                            <td >
+                                                <a href="{{ base_url('Profile/viewBooking') }}/{{ data.t_id }}" class="iframe btn default btn-xs purple"> <i class="fa fa-eye"></i> {{ lang('view') }} </a>
+                                                
+                                               
+                                            </td>
+                                        </tr>
+                                          {% set sno = sno + 1 %}
+                                    {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="7">No booking found</td>
+                                        </tr>
+                                {% endif %}
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    {{ links | raw }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js_bottom %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/0.12.16/vue.min.js"></script>
+    <script>
+        document['countries'] = {{ countries|json_encode|raw }};
+        document['country'] = '{{ user.country }}';
+        document['state'] = '{{ user.state }}';
+        document['city'] = '{{ user.city }}';
+    </script>
+    <script src="{{ base_url('assets/js/profile.js', get_protocol()) }}"></script>
+
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker.min.css">
+{% endblock %}

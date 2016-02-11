@@ -1,0 +1,60 @@
+<header id="header-page">
+     <div class="header-page__inner">
+        <div class="container">
+           <div class="logo"><a href="{{  base_url('', get_protocol()) }}"><img src="{{ base_url('assets/images/logo.png', get_protocol()) }}" alt=""></a></div>
+           <nav class="navigation awe-navigation" data-responsive="1200">
+              <ul class="menu-list">
+                 <li class="menu-item-has-children current-menu-parent">
+                    <a href="{{ base_url('', get_protocol()) }}">{{ lang('home') }}</a>
+                 </li>
+                 
+                 {% if (auth().is_logged()) %}
+                 <li style="border-right:1px solid #f69825;border-left:1px solid #f69825" class="menu-item-has-children">
+                 <a href="{{ base_url('profile', get_protocol()) }}">{{ auth().get('firstname') }}</a>
+                    <ul class="sub-menu">
+                        <li><a href="{{ base_url('profile', get_protocol()) }}">{{ lang('profile') }}</a>
+                        </li>
+                        <li><a href="{{ base_url('auth/logout', get_protocol()) }}">{{ lang('logout') }}</a>
+                        </li>
+                    </ul>
+                </li>
+                <?php
+                {% else %}
+                    ?>
+                    <li style="border-right:1px solid #f69825;border-left:1px solid #f69825" class="menu-item-has-children">
+                    <a href="{{ base_url('auth/login', get_protocol()) }}">{{ lang('login') }}</a>
+                   
+                </li>
+                {% endif %}
+                  
+                ?>
+				
+        				{# <li style="border-right:1px solid #f69825;border-left:1px solid #f69825" class="menu-item-has-children">
+                    {{ lang('login') }}     
+                    {% if (session.userdata('langtype') == 'chinese') %}
+                     <a href="{{ base_url('trip/set_language/english') }}">English</a>
+                     
+                     {% else %}
+                      <a href="{{ base_url('trip/set_language/chinese') }}">Chinese</a>
+                      
+                    {% endif %}
+               </li> #}
+				 
+              </ul>
+           </nav>
+           <!--<div class="search-box">
+              <span class="searchtoggle">Login</span>
+           </div>-->
+           <a class="toggle-menu-responsive" href="#">
+              <div class="hamburger"><span class="item item-1"></span> <span class="item item-2"></span> <span class="item item-3"></span></div>
+           </a>
+        </div>
+     </div>
+  </header>
+  <style>
+  #text-dangerfontlg, .text-dangerfontlg {
+    color:red;
+    font-size:14px;
+    font-weight: bold;
+  }
+  </style>

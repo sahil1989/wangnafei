@@ -1,0 +1,5 @@
+<div class="list-group">
+    <a href="{{ base_url('profile') }}" class="list-group-item {{ (submenu_item == 'profile') ? 'active' : '' }}">{{ lang('profile') }}</a>
+    <a href="{{ base_url('profile/edit') }}" class="list-group-item {{ (submenu_item == 'profile_edit') ? 'active' : '' }}">{{ lang('edit_profile_data') }}</a>
+    <a href="{{ base_url('profile/orders') }}" class="list-group-item {{ (submenu_item == 'order_history') ? 'active' : '' }}">{{ lang('order_history') }}</a>
+</div>

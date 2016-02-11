@@ -1,0 +1,167 @@
+{% extends 'main.twig' %}
+
+{% block body %}
+    <div id="profileEditApp">
+        <br />
+        <h2>{{ title }}</h2>
+        <div class="row">
+            <div class="col-md-3">
+                {% include 'general/profile_menu.twig' with {'submenu_item': 'profile_edit'} %}
+            </div>
+            <div class="col-md-9">
+                <form method="post" action="{{ base_url('profile/edit', get_protocol()) }}">
+                    <input type="hidden" name="{{ this.security.get_csrf_token_name() }}" value="{{ this.security.get_csrf_hash() }}" />
+
+                    <h4>{{ lang('personal_data') }}</h4>
+                    {# Personal data block #}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputFirstname">{{ lang('first_name') }} <span class="red">*</span></label>
+                                <input type="text" name="firstname" class="form-control" id="inputFirstname" value="{{ user.firstname }}" >
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('firstname')|raw }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputLastname">{{ lang('last_name') }} <span class="red">*</span></label>
+                                <input type="text" name="lastname" class="form-control" id="inputLastname" value="{{ user.lastname }}" >
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('lastname')|raw }}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputPhone">{{ lang('phone_no') }} <span class="red">*</span></label>
+                                <input type="text" name="phone" class="form-control" id="inputPhone" value="{{ user.phone }}" >
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('phone')|raw }}</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputGender">{{ lang('gender') }} <span class="red">*</span></label>
+                                <select class="form-control" id="inputGender" name="gender">
+                                    <option value="Male" {{ (user.gender == 'Male') ? 'selected' : '' }}>{{ lang('male') }}</option>
+                                    <option value="Female" {{ (user.gender == 'Female') ? 'selected' : '' }}>{{ lang('female') }}</option>
+                                </select>
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('gender')|raw }}</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputDob">{{ lang('dob') }} <span class="red">*</span></label>
+                                <input type="text" name="dob" id="dobdatepicker" value="{{ user.dob|date('m-d-Y') }}" class="form-control" />
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('dob')|raw }}</div>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <h4>{{ lang('location') }}</h4>
+                    {# Location block #}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputCountry">{{ lang('street_address') }}</label>
+                                <input type="text" class="form-control" id="inputAddress" name="street_address" value="{{ user.address }}">
+                    
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('street_address')|raw }}</div>
+                        </div>
+                        <div class="col-md-4" >
+                            <div class="form-group">
+                                <label for="inputState">{{ lang('state') }}</label>
+                                <input type="text" class="form-control" id="inputState" name="state" value="{{ user.state }}">
+                                        
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('state')|raw }}</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputCity">{{ lang('city') }}</label>
+                                <input type="text" class="form-control" id="inputCity" name="city" value="{{ user.city }}">
+                                        
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('city')|raw }}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputCountry">{{ lang('country') }}</label>
+                                <input type="text" class="form-control" id="inputCountry" name="country" value="{{ user.country }}">
+                    
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('country')|raw }}</div>
+                        </div>
+                        
+                        
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="inputZipcode">{{ lang('zipcode') }}</label>
+                                <input type="text" name="zipcode" class="form-control" id="inputZipcode" value="{{ user.zipcode }}" >
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('zipcode')|raw }}</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <input type="submit" class="btn btn-primary" value="{{ lang('save') }}">
+                    </div>
+                    <hr />
+
+                    <h4>{{ lang('password') }}</h4>
+                    {# Password block #}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputOldPassword">{{ lang('current_password') }}</label>
+                                <input type="password" name="old_password" class="form-control" id="inputOldPassword" >
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('old_password')|raw }}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword">{{ lang('new_password') }}</label>
+                                <input type="password" name="password" class="form-control" id="inputPassword" >
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('password')|raw }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPasswordConfirmation">{{ lang('confirm_new_password') }}</label>
+                                <input type="password" name="password_confirmation" class="form-control" id="inputPasswordConfirmation" >
+                            </div>
+                            <div class="errors-list" style="color:red;">{{ form_error('password_confirmation')|raw }}</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <input type="submit" class="btn btn-primary" value="{{ lang('save') }}">
+                    </div>
+
+                    <br />
+                    <br />
+                </form>
+            </div>
+        </div>
+    </div>
+{%  endblock %}
+
+{% block js_bottom %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/0.12.16/vue.min.js"></script>
+    <script>
+        document['countries'] = {{ countries|json_encode|raw }};
+        document['country'] = '{{ user.country }}';
+        document['state'] = '{{ user.state }}';
+        document['city'] = '{{ user.city }}';
+    </script>
+    <script src="{{ base_url('assets/js/profile.js', get_protocol()) }}"></script>
+
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker.min.css">
+{% endblock %}
